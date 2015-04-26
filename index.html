@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Braille</title>
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+	<body>
+        <script src='./jwerty.js' type='text/javascript' language='javascript'></script>
+		<script src="http://code.jquery.com/jquery-2.1.3.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+		<div>
+			Phrase : <span id="word"></span>
+		</div>
+		<div>
+		Lettre : <span id="letter"></span>
+		</div>
+
+		<div id="container-fluid" class="content">
+			<div class="row  ">
+				 <div id="control" class="col-xs-4 col-md-4 button">Raz</div>
+				 <div id="space" class="col-xs-4 col-md-4 button">Espace</div>
+			     <div id="backspace" class="col-xs-4 col-md-4 button">Supprimer</div>
+			</div>
+            <div class="row">
+				<div id="three" class="col-xs-2 col-md-2 button">3</div>
+				<div id="two" class="col-xs-2 col-md-2 button">2</div>
+				<div id="one" class="col-xs-2 col-md-2 button">1</div>
+				<div id="four" class="col-xs-2 col-md-2 button">4</div>
+				<div id="five" class="col-xs-2 col-md-2 button">5</div>
+				<div id="six" class="col-xs-2 col-md-2 button">6</div>
+			</div>
+		</div>
+
+		<div id="info">
+		</div>
+
+		<script src="braille.js"></script>
+
+	</body>
+
+</html>
