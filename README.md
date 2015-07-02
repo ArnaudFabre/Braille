@@ -5,7 +5,8 @@ Braille web application
 
 A Perkins-like simulator with traditional keyboard or touch recognition as input, and text to speach as output.
 
-Demo : http://sidh.xyz/braille
+Live Demo : http://arnaudfabre.github.io/Braille/
+
 
 ## Why ?
 

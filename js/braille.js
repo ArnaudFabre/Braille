@@ -14,8 +14,8 @@ var cell = [0, 0, 0, 0, 0, 0]; // Braille Cell
 
 var key_config = 0;
 var keys = [
-	[71, 70, 68, 74, 75, 76], // AZERTY Classic
-	[70, 68, 83, 74, 75, 76],  // Modified keyboard
+	[70, 68, 83, 74, 75, 76], // AZERTY Classic
+	[71, 70, 68, 74, 75, 76], // Modified keyboard 1 
 ];
 
 // Cell is a 6 dot array, so a 2^6 possibilites from 0 to 63
