@@ -1,0 +1,66 @@
+div {
+    font-size: 20px;
+}
+
+.content {
+    background: black;
+    width: 100%;
+    height: 400px;
+    text-align: center;
+}
+
+.button {
+    border: 1px solid silver;
+    position: absolute;
+    width: 50px;
+    height: 80px;
+}
+
+#one {
+    left: 200px;
+}
+
+#two {
+    left: 150px;
+}
+
+#three {
+    left: 100px;
+}
+
+#space {
+    width: 100px;
+    height: 100px;
+    left: 250px;
+}
+
+#four {
+    left: 350px;
+}
+
+#five {
+    left: 400px;
+}
+
+#six {
+    left: 450px;
+}
+
+#backspace {
+    left: 550px;
+    height: 50px;
+}
+
+#control {
+    left: 0p;
+    height: 50px;
+}
+
+@font-face {
+    font-family: braille;
+    src: url(braille.ttf);
+}
+
+.braille {
+    font-family: 'braille';
+}
