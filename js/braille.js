@@ -290,19 +290,20 @@ jwerty.key('2', function () {
 });
 
 function UpdateInfo () {
-	var shortcuts = "<p>Cell :" + keys[key_config].map(function (a) {
+	$('#cell').html(keys[key_config].map(function (a) {
 		return String.fromCharCode(a);
-	}).join(' ') +
-		"</p><p>Raz : a ou q, Espace, Supprimer : m</p>" +
-		"<p>1 : changer la lecture, 0 : changer l'alphabet, 2: changer la configuration des touches</p>";
+	}).join(' '));
+
+	$('#keys').html("Raz : a ou q, Espace, Supprimer : m");
+	
+	$('#config').html("1 : changer la lecture, 0 : changer l'alphabet, 2: changer la configuration des touches");
 
 	if ('speechSynthesis' in window) {
-		$('#info').html('Synthèse vocal activée' + shortcuts);
+		$('#tts').html('activée');
 		voices = window.speechSynthesis.getVoices();
 		voices = window.speechSynthesis.getVoices();
-		//speak($('#info').html());
 	} else {
-		$('#info').html('Synthèse vocale non activée' + shortcuts);
+		$('#tts').html('non activée');
 	}
 }
 
