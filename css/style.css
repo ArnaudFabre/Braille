@@ -1,3 +1,13 @@
+body {
+    color: silver;
+    background-color: rgb(48, 48, 48);
+}
+
+input {
+    width: 300px;
+    height: 100%
+}
+
 div {
     font-size: 20px;
 }
@@ -14,6 +24,48 @@ div {
     position: absolute;
     width: 50px;
     height: 80px;
+}
+
+.datagrid table {
+    border-collapse: collapse;
+    text-align: left;
+    width: 100%;
+}
+
+.datagrid {
+    font: normal 12px/150% Arial, Helvetica, sans-serif;
+    background: #fff;
+    overflow: hidden;
+    border: 1px solid #8C8C8C;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.datagrid table td,
+.datagrid table th {
+    padding: 4px 10px;
+}
+
+.datagrid table tbody td {
+    color: #7D7D7D;
+    border-left: 2px solid #DBDBDB;
+    font-size: 12px;
+    border-bottom: 1px solid #000000;
+    font-weight: normal;
+}
+
+.datagrid table tbody .alt td {
+    background: #EBEBEB;
+    color: #7D7D7D;
+}
+
+.datagrid table tbody td:first-child {
+    border-left: none;
+}
+
+.datagrid table tbody tr:last-child td {
+    border-bottom: none;
 }
 
 #one {

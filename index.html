@@ -9,35 +9,72 @@
 
 <body>
     <script src='./js/jwerty.js' type='text/javascript' language='javascript'></script>
-    <script src='./js/html2canvas.js' type='text/javascript' language='javascript'></script>
+    <!--    <script src='./js/html2canvas.js' type='text/javascript' language='javascript'></script>-->
     <script src="http://code.jquery.com/jquery-2.1.3.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>-->
+    <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">-->
+
+    <!--
     <div>
-        Braille :
-        <span type="text" id="braille" class="braille"></span>
+        <span id="fullbraille" class="braille"></span>
     </div>
     <div>
-        Phrase :
-        <span type="text" id="word"></span>
+        <span id="fulltext"></span>
     </div>
+-->
+    <div id="questions">
+        <h2>Questionnaire</h2>
+        <div>
+            <label>Nom :</label>
+            <input type="text" id="name" value="Nathan">
+        </div>
+        <div>
+            Exercice :
+            <input type="file" id="fileUpload" />
+        </div>
+        <button id="run_exo">C'est parti</button>
+        <div class="datagrid" id="exo">
+        </div>
+    </div>
+    </div>
+
+    <div id="brailleKeyboard">
+        <h2>Réponses</h2>
+        <div id="full">
+        </div>
+
+        <div>
+            <p id="braille" class="braille"></p>
+            <p id="word"></p>
+        </div>
+    </div>
+
+    <!--
+    <div>
+        <textarea id="input" rows="28" cols="31"></textarea>
+        <button id="trans">Translate</button>
+        <div id="output" class="braille">
+        </div>
+    </div>
+-->
+    <!--
     <div>
         Lettre : <span id="letter"></span>
-    </div>
+    </div>-->
 
-    <div class="content">
-        <div id="control" class="button"></div>
-        <div id="space" class="button"></div>
-        <div id="backspace" class="button"></div>
-        <div id="one" class="button"></div>
-        <div id="two" class="button"></div>
-        <div id="three" class="button"></div>
-        <div id="four" class="button"></div>
-        <div id="five" class="button"></div>
-        <div id="six" class="button"></div>
-    </div>
-
-
+    <!--
+ <div class="content">
+    <div id="control" class="button"></div>
+    <div id="space" class="button"></div>
+    <div id="backspace" class="button"></div>
+    <div id="one" class="button"></div>
+    <div id="two" class="button"></div>
+    <div id="three" class="button"></div>
+    <div id="four" class="button"></div>
+    <div id="five" class="button"></div>
+    <div id="six" class="button"></div>
+</div>
+-->
 
     <!--		<div id="container-fluid" class="content">-->
     <!--			<div class="row  ">-->
@@ -55,23 +92,13 @@
     <!--			</div>-->
     <!--		</div>-->
 
+    <!--
     <div>
-		<div id="info">
-			<strong>Synthèse vocale</strong>
-			<div id="tts"></div>
-			<strong>Cellule Braille</strong>
-			<div id="cell"></div>
-			<strong>Controle</strong>
-			<div id="keys"></div>
-			<strong>Config</strong>
-			<div id="config"></div>
-		</div>
-		<div id="alphabets">
-			<strong>Alphabet</strong>
-	        <div id="alphabet"></div>
-	        <div id="braille_alphabet" class="braille"></div>
-		</div>
+        <div id="info"></div>
+        <div id="alphabet"></div>
+        <div id="braille_alphabet" class="braille"></div>
     </div>
+-->
 
     <script src="./js/braille.js"></script>
 
