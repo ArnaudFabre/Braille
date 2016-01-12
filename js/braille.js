@@ -14,6 +14,12 @@ var BrailleCell = (function (map) {
     var first = false;
     var mapping;
 
+    var rational_fr = {
+        '’': "'",
+        '«': '"',
+        '»': '"'
+    };
+
     var braille_fr = [
     ' ', 'a', ',', 'b', "'", 'k', ';', ['l', NONE, NONE, '£'], EXP, 'c',
     'i', 'f', ['/', '/'], 'm', ['s', NONE, NONE, '$'], 'p', SIGN, ['e', NONE, NONE, '€'], [':', ':'], 'h',
@@ -87,8 +93,6 @@ var BrailleCell = (function (map) {
     function getBlack() {
         var n = getBraille();
         var l = mapping[n];
-        console.log(prefix);
-        console.log(l);
         if (Array.isArray(l)) {
             switch (prefix) {
             case CUR:
@@ -157,11 +161,13 @@ var BrailleCell = (function (map) {
     }
 
     function search(char) {
+        if (rational_fr[char]) {
+            char = rational_fr[char];
+        }
         for (var i = 0; i < mapping.length; i++) {
             if (Array.isArray(mapping[i])) {
                 for (var j = 0; j < mapping[i].length; j++) {
                     if (mapping[i][j] === char) {
-                        console.log(mapping[i][j]);
                         return i;
                     }
                 }
@@ -171,6 +177,7 @@ var BrailleCell = (function (map) {
                 }
             }
         }
+
         return undefined;
     }
 
@@ -373,7 +380,7 @@ var questions_fr = {
                 return reset();
             }
 
-            this.essai[this.current] ++;
+            this.essai[this.current]++;
             if (this.current >= this.enonce.length) {
                 speak(word + ' ' + this.name + ' c fini ' + this.stat());
                 this.question_mode = false;
@@ -431,16 +438,25 @@ $('#trans').click(function () {
 
     var first = true;
     for (i = 0; i < input.length; count++, i++) {
-        if ((count % 32 === 0 && !first) || input[i] === '\n') {
+
+
+
+        if (input[i] === '\n') {
             $('#output').append('\n');
             $('#output2').append('</br>');
-
             count = 0;
+            continue;
         } else {
             bc.set(input[i]);
             $('#output').append(bc.get('brf'));
             $('#output2').append(bc.get('dots'));
             $('#output2').append(' ');
+        }
+        if ((count % 31 === 0 && !first)) {
+            $('#output').append('\n');
+            $('#output2').append('</br>');
+
+            count = 0;
         }
         first = false;
     }
