@@ -1,0 +1,113 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+    color:white;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/*****************************/
+
+#menu {
+    flex: 1 30%;
+    display: flex;
+    flex-flow: row nowrap;
+    background-color: #333;
+    color: #FFF;
+}
+
+.item {
+    flex: 1 100%;
+    text-align: center;
+    line-height: 8em;
+}
+
+.lighter {
+    background-color: #555;
+}
+
+.light {
+    background-color: #444;
+}
+
+.darker {
+    background-color: #222;
+}
+
+.dark {
+    background-color: #333;
+}
+
+.view {
+    flex: 1 100%;
+}
+
+#content {
+    flex: 1 70%;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.wrapper {
+    height: 100vh;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.in {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+}
+
+@font-face {
+    font-family: toto;
+    src: url(Braille_2007.ttf);
+}
+
+#braille {
+    font-family: 'toto';
+    font-size: 32px;
+}

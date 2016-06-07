@@ -1,0 +1,35 @@
+Pour installer la police Braille_2007, il suffit de
+glisser le fichier Braille_2007.ttf dans le répertoire
+C:\Windows\Fonts (si vous êtes sous Windows).
+
+Pour mettre une nouvelle version de la police, il faut
+tout d'abord aller effacer Braille_2007 se trouvant dans
+C:\Windows\Fonts, puis mettre la nouvelle version en
+suivant la méthode ci-dessus.
+
+Les signes brailles sans équivalent en noir sont
+accessible depuis le clavier grâce aux caractères :
+
+² p4
+` p5
+¤ p6
+
+£ p35
+¨ p45
+$ p46
+^ p56
+
+| p456
+§ p346
+
+Utilisez cette police à la taille 27, sous :
+OpenOffice.org (espacement caractères 1,5pts),
+Adobe Photoshop,
+Microsoft Word (espacement caractères 1,5pts).
+
+La dernière version est téléchargeable à cette adresse :
+http://mayjo.mine.nu/Braille_2007.zip (respectez la casse)
+
+Merci à Myriam PASQUIER pour les tests.
+
+Yoann L'HUILLIER - 2007 - NANCY 54
