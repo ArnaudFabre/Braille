@@ -27,10 +27,26 @@
                 Perkins : <div id="braille" class="in" ng-keyup="fire($event)">{{braille}}</div>
             </div>
             <div class="view light" ng-show="view_selected === 2">
-
+                <h2>Questionnaire</h2>
+                <div>
+                    <label>Nom :</label>
+                    <input type="text" id="name" value="Nathan">
+                </div>
+                <div>
+                    Exercice :
+                    <input type="file" id="fileUpload" />
+                </div>
+                <button id="run_exo">C'est parti</button>
+                <div class="datagrid" id="exo">
+                </div>
             </div>
             <div class="view lighter" ng-show="view_selected === 3">
-
+                <label for="max_lines">Lines : </label><input id="max_lines" type="number" ng-model="max_lines"></input>
+                <label for="max_chars">Characters : </label><input id="max_chars" type="number" ng-model="max_chars"></input>
+                <textarea id="input" rows="{{max_lines}}" cols="{{max_chars}}" ng-model="text_area_input" ng-change="toBrf()"></textarea>
+                <textarea id="output" readonly rows="28" cols="30" ng-model="text_area_output"></textarea>
+                <button ng-click='downloadBRF({ filename: "file.brf" });'>Download BRF</button>
+                <div id="output2" rows="28" cols="31"></div>
             </div>
         </div>
     </div>
