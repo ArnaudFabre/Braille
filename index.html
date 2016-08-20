@@ -22,9 +22,16 @@
             <div class="view darker" ng-show="view_selected === 0">
             </div>
             <div class="view dark" ng-show="view_selected === 1">
-                Clavier : <input type="text" id="black" class="in" ng-model="input" ng-change="translate()"></input>
-                Perkins : <input type="text" id="braille" class="in" ng-model="perkins" ng-keyup="fire($event)"></input>
-                Perkins : <div id="braille" class="in" ng-keyup="fire($event)">{{braille}}</div>
+                <div>
+                    <label for="black">Clavier : </label><input type="text" id="black" class="in" ng-model="input" ng-change="translate()">
+                </div>
+                <div>
+                    <label for="perckins">Perkins : </label><input type="text" id="perkins" class="in" ng-model="perkins" ng-keyup="fire($event)">
+                </div>
+                <div>
+                    <label for="braille">Braille : </label><div id="braille" class="braille" ng-keyup="fire($event)">{{braille}}
+                </div>
+                </div>
             </div>
             <div class="view light" ng-show="view_selected === 2">
                 <h2>Questionnaire</h2>
@@ -41,8 +48,11 @@
                 </div>
             </div>
             <div class="view lighter" ng-show="view_selected === 3">
-                <label for="max_lines">Lines : </label><input id="max_lines" type="number" ng-model="max_lines"></input>
-                <label for="max_chars">Characters : </label><input id="max_chars" type="number" ng-model="max_chars"></input>
+                <div>
+                    <label for="max_lines">Lines : </label><input id="max_lines" type="number" ng-model="max_lines">
+                    <label for="max_chars">Characters : </label><input id="max_chars" type="number" ng-model="max_chars">
+                </div>
+
                 <textarea id="input" rows="{{max_lines}}" cols="{{max_chars}}" ng-model="text_area_input" ng-change="toBrf()"></textarea>
                 <textarea id="output" readonly rows="28" cols="30" ng-model="text_area_output"></textarea>
                 <button ng-click='downloadBRF({ filename: "file.brf" });'>Download BRF</button>

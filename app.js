@@ -50,22 +50,49 @@ BrailleApp.controller('BrailleCtrl', function ($scope) {
         var char = 0;
         var first = true;
         $scope.text_area_output = '';
+
+        var last_space = -1; // Identify last space to cut lines
+        var detect_line = false;
+
         for (var i in $scope.text_area_input) {
+            // Parsing the input
             var letter = $scope.text_area_input[i];
+            if(letter === ' ')
+                last_space = i; // Remember last_space
+
             if (letter === '\n') {
+                // Force break line
                 $scope.text_area_output += '\n';
                 char = 0;
+                last_space = -1; // reset last_space
+                line++;
                 continue;
             } else {
-                $scope.text_area_output += cell.set(letter).get('brf');
-                char++;
+                // Translate to brf
+                var brf = cell.set(letter).get('brf');
+                $scope.text_area_output += brf;
+                char+= brf.length;
             }
 
-            if ((char % ($scope.max_chars+1)) === 0 && !first) {
-                $scope.text_area_output += '\n';
-                char = 0;
+            if(char > $scope.max_chars) {
+               // Break line
+                $scope.text_area_output[last_space] = '\n';
+                char = char-last_space;
+                line++;
             }
-            first = false;
+            else
+            if (char === $scope.max_chars) {
+                if(letter === ' ') {
+                    $scope.text_area_output += '\n';
+                    char = 0;
+                    line++;
+                }
+                else {
+                    $scope.text_area_output[last_space] = '\n';
+                    char = char-last_space;
+                    line++;
+                }
+            }
         }
     };
 
