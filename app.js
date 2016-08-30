@@ -1,5 +1,13 @@
 var BrailleApp = angular.module('BrailleApp', []);
 
+/**
+ * Due to immutable JS strings...
+ * Replace a character in a string at position index
+ */
+function replaceChar(s, index, char) {
+   return s.substr(0, index) + char + s.substr(index+1);
+}
+
 BrailleApp.controller('BrailleCtrl', function ($scope) {
     $scope.view_selected = 0;
     $scope.view = function (v) {
@@ -43,59 +51,68 @@ BrailleApp.controller('BrailleCtrl', function ($scope) {
 
     $scope.max_lines = 28;
     $scope.max_chars = 30;
+    $scope.pages = 0;
     // Brf converter
-    $scope.toBrf = function (max_l, max_c) {
+    $scope.toBrf = function () {
         //console.log($scope.text_area_input);
-        var line = 0;
-        var char = 0;
+        var line = 0; // count lines
+        var char = 0; // count char in the current line
+        var pos = 0; // count position in the brf text
         var first = true;
         $scope.text_area_output = '';
 
-        var last_space = -1; // Identify last space to cut lines
+        var last_pos = -1;  // Identify last position to cut lines
         var detect_line = false;
         
         cell.reset();
         for (var i in $scope.text_area_input) {
-            // Parsing the input
             var letter = $scope.text_area_input[i];
-            if(letter === ' ')
-                last_space = i; // Remember last_space
-
+            // console.log(letter, i, pos, last_pos);
+            
+            if(letter === ' ') {
+                // Remember last_space
+                last_pos = pos;
+            }
+            
             if (letter === '\n') {
                 // Force break line
                 $scope.text_area_output += '\n';
                 char = 0;
-                last_space = -1; // reset last_space
+                last_pos = -1; // Reset last space
+                pos++;
                 line++;
                 cell.reset();
                 continue;
             } else {
                 // Translate to brf
                 var brf = cell.set(letter).get('brf');
+                // console.log('{' + brf + '}');
                 $scope.text_area_output += brf;
+                pos += brf.length; 
                 char+= brf.length;
             }
-
-            if(char > $scope.max_chars) {
-               // Break line
-                $scope.text_area_output[last_space] = '\n';
-                char = char-last_space;
-                line++;
-            }
-            else
-            if (char === $scope.max_chars) {
+            if(char >= $scope.max_chars) {
                 if(letter === ' ') {
-                    $scope.text_area_output += '\n';
+                    // console.log("replace space", pos-1);
+                    $scope.text_area_output = replaceChar($scope.text_area_output, pos-1, '\n');
                     char = 0;
                     line++;
                 }
+                else
+                if(last_pos === -1) {
+                    console.log("cut word");
+                }
                 else {
-                    $scope.text_area_output[last_space] = '\n';
-                    char = char-last_space;
+                    // console.log("cut at last space", last_pos);
+                    $scope.text_area_output = replaceChar($scope.text_area_output, last_pos, '\n');
+                    char = pos-last_pos-1;
+                    // console.log("new char is " + char);
                     line++;
                 }
+                last_pos = -1;
             }
         }
+        $scope.pages = 1+line/$scope.max_lines;
     };
 
     $scope.downloadBRF = function(args) {

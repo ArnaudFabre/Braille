@@ -51,6 +51,7 @@
                 <div>
                     <label for="max_lines">Lines : </label><input id="max_lines" type="number" ng-model="max_lines">
                     <label for="max_chars">Characters : </label><input id="max_chars" type="number" ng-model="max_chars">
+                    <label for="pages">Pages : </label><span id="pages">{{pages}}</span>
                 </div>
 
                 <textarea id="input" rows="{{max_lines}}" cols="{{max_chars}}" ng-model="text_area_input" ng-change="toBrf()"></textarea>
