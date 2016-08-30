@@ -17,7 +17,8 @@ var BrailleCell = (function (map) {
     var rational_fr = {
         '’': "'",
         '«': '"',
-        '»': '"'
+        '»': '"',
+        'ä': 'à'
     };
 
     var braille_fr = [
@@ -173,8 +174,8 @@ var BrailleCell = (function (map) {
                 }
             }
         }
-
-        return undefined;
+        console.log("Error {" + char + "}" + mapping[0]);
+        return ' ';
     }
 
     function set(dot, value) {
