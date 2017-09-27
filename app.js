@@ -18,7 +18,8 @@ BrailleApp.controller('BrailleCtrl', function ($scope) {
     $scope.braille = "";
 
     var cell = new BrailleCell();
-
+    var speech = new Speech();
+    
     $scope.translate = function () {
         $scope.braille = $scope.input;
     };
@@ -38,6 +39,7 @@ BrailleApp.controller('BrailleCtrl', function ($scope) {
                     d = '§';
                     break;
                 }
+                speech.speak(d);
                 $scope.input += d;
                 $scope.braille += d;
                 $scope.perkins = $scope.braille;
@@ -150,6 +152,7 @@ BrailleApp.controller('BrailleCtrl', function ($scope) {
                 $scope.input += ' ';
                 $scope.perkins += ' ';
                 $scope.braille += ' ';
+                speech.speak($scope.input);
                 break;
             case 77: // backspace
                 $scope.input = $scope.input.slice(0, -1);
@@ -157,6 +160,8 @@ BrailleApp.controller('BrailleCtrl', function ($scope) {
                 $scope.braille = $scope.braille.slice(0, -1);
                 cell.reset();
                 empty = true;
+                speech.speak("corriger");
+                speech.speak($scope.input);
                 break;
             case 81: // newline
                 $scope.input = "";
@@ -164,8 +169,10 @@ BrailleApp.controller('BrailleCtrl', function ($scope) {
                 $scope.braille = "";
                 cell.reset();
                 empty = true;
+                speech.speak("entrée");
                 break;
             }
         }
+        
     };
 });
