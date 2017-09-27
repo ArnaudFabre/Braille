@@ -42,8 +42,6 @@ BrailleApp.controller('BrailleCtrl', function ($scope) {
             $scope.braille = $scope.input;
         }
 
-    };
-
     var empty = true; // If no letter is ready to be added
     var refresh_rate = 200;
 
