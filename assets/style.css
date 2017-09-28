@@ -107,7 +107,7 @@ table {
     src: url(Braille_2007.ttf);
 }
 
-#braille {
+.braille {
     font-family: 'toto';
     font-size: 32px;
 }

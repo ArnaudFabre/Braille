@@ -1,5 +1,14 @@
+
 var BrailleApp = angular.module('BrailleApp', []);
 
+BrailleApp.filter('noir', function($sce) { return function(html){
+            return $sce.trustAsHtml(html)
+        }
+});
+BrailleApp.filter('braille', function($sce) { return function(html){
+            return $sce.trustAsHtml('<span class="braille">' + html + '</span>')
+        }
+});
 /**
  * Due to immutable JS strings...
  * Replace a character in a string at position index
@@ -16,12 +25,22 @@ BrailleApp.controller('BrailleCtrl', function ($scope) {
 
     $scope.input = "";
     $scope.braille = "";
+    $scope.text = "";
 
     var cell = new BrailleCell();
     var speech = new Speech();
     
-    $scope.translate = function () {
-        $scope.braille = $scope.input;
+    $scope.translate = function ($event) {
+        console.log($event);
+        if($event.key === "Enter") {
+            $scope.text += $scope.input + "</br>";
+            $scope.input = "";
+            $scope.braille = "";
+        }
+        else {
+            $scope.braille = $scope.input;
+        }
+
     };
 
     var empty = true; // If no letter is ready to be added
@@ -43,7 +62,6 @@ BrailleApp.controller('BrailleCtrl', function ($scope) {
                 $scope.input += d;
                 $scope.braille += d;
                 $scope.perkins = $scope.braille;
-                console.log(d);
                 cell.reset();
                 empty = true;
                 $scope.$apply();
@@ -166,6 +184,7 @@ BrailleApp.controller('BrailleCtrl', function ($scope) {
             case 81: // newline
                 $scope.input = "";
                 $scope.perkins = "";
+                $scope.text += $scope.braille + "<br/>";
                 $scope.braille = "";
                 cell.reset();
                 empty = true;
