@@ -9,6 +9,7 @@ BrailleApp.filter('braille', function($sce) { return function(html){
             return $sce.trustAsHtml('<span class="braille">' + html + '</span>')
         }
 });
+
 /**
  * Due to immutable JS strings...
  * Replace a character in a string at position index
