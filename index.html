@@ -55,6 +55,7 @@
                     <label for="max_chars">Characters : </label><input id="max_chars" type="number" ng-model="max_chars">
                     <label for="pages">Pages : </label><span id="pages">{{pages}}</span>
                 </div>
+
                 <textarea id="input" rows="{{max_lines}}" cols="{{max_chars}}" ng-model="text_area_input" ng-change="toBrf()"></textarea>
                 <textarea id="output" readonly rows="28" cols="30" ng-model="text_area_output"></textarea>
                 <button ng-click='downloadBRF({ filename: "file.brf" });'>Download BRF</button>
