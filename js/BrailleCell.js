@@ -1,9 +1,19 @@
-var BrailleCell = (function (map) {
+// A memory braille cell easy to use for
+// - direct conversion between 
+//      + braille number (called braille),
+//      + readable braille sign (called dots), 
+//      + ascii letters (called black, french by default),
+//      + and brf representation
+// - format correctly braille signs by remembering the previous cell (easy to format numbers and basic math operations)
 
-    var NONE = 0;
+var BrailleCell = (function (map) {
+    // Identifiers
+    // In braille, signification of a cell is determined by the dots enabled 
+    // but also by the existence of a prefix that can be deactivated after a blank cell (Braille Number 0)
+    var NONE = 0; // No identifier
     var EXP = -1; // Exposant
     var SIGN = -2; // Sign prefix
-    var MAJ = -3; // Upper Case
+    var MAJ = -3; // Upper Case prefix
     var CUR = -4; // Currency prefix
     var NUM = -5; // number prefix
     var ING = -6; // ing
@@ -11,15 +21,25 @@ var BrailleCell = (function (map) {
     var IT = -8; // Italique
 
     var prefix = NONE;
-    var first = false;
-    var mapping;
-
+    var number_start = {
+        first : false,
+        last: "",
+        reset: function() { this.first = false, this.last = "" }
+    };
+    
+    // A dictionary to cure UTF-8 entries
     var rational_fr = {
         '’': "'",
         '«': '"',
         '»': '"'
     };
 
+    // A french mapping of the letters corresponding to the braille number
+    // 0 -> -> no dot
+    // 1 -> 2^0 -> dot 1
+    // 10 -> 2^3 + 2^1 -> dot 2 and dot 4
+    // If an array is stored, it contains the sign corresponding to the given prefix 
+    // "NO PREFIX, NUMBER, SIGN, CURRENCY"
     var braille_fr = [
     ' ', 'a', ',', 'b', "'", 'k', ';', ['l', NONE, NONE, '£'], EXP, 'c',
     'i', 'f', ['/', '/'], 'm', ['s', NONE, NONE, '$'], 'p', SIGN, ['e', NONE, NONE, '€'], [':', ':'], 'h',
@@ -30,6 +50,7 @@ var BrailleCell = (function (map) {
     '0', 'y', 'ù', ['é', NONE, '&']
     ];
 
+    // Some basic brf table
     var brf = [
     ' ', 'A', '1', 'B', "'", 'K', '2', 'L', '@', 'C', // 10
     'I', 'F', '/', 'M', 'S', 'P', '"', 'E', '3', 'H', // 20
@@ -40,7 +61,11 @@ var BrailleCell = (function (map) {
     '#', 'Y', ')', '='
     ];
 
-    var cell = [0, 0, 0, 0, 0, 0]; // Braille Cell
+    // The internal representation of a Braille Cell
+    var cell = [0, 0, 0, 0, 0, 0];
+
+    // Initialize the mapping table
+    var mapping;
 
     if(map) {
         mapping = map;
@@ -48,6 +73,7 @@ var BrailleCell = (function (map) {
         mapping = braille_fr;
     }
 
+    // Compute the braille number representation : 2^0 + 2^1 + 2^2 + 2^3 + 2^4 + 2^5 (dot 1,2,3,4,5,6)
     function getBraille() {
         var b = 0;
         for (var i = 0; i < 6; i++) {
@@ -56,11 +82,13 @@ var BrailleCell = (function (map) {
         return b;
     }
 
+    // Return the dot notation: i.e "123" for dot 1,2,3 enabled (letter l)
+    // Sometimes need the prefix to be shown
     function getDots() {
         var p = '';
         switch (prefix) {
         case NUM:
-            if (first) {
+            if (number_start.first) {
                 p = '6';
             }
             break;
@@ -86,6 +114,7 @@ var BrailleCell = (function (map) {
         return d;
     }
 
+    // Return the black notation, in our example the letter l
     function getBlack() {
         var n = getBraille();
         var l = mapping[n];
@@ -109,6 +138,7 @@ var BrailleCell = (function (map) {
         return l;
     }
 
+    // Search in the brf mapping table, the correct translation
     function getBrf() {
         var n = getBraille();
         switch (prefix) {
@@ -119,10 +149,10 @@ var BrailleCell = (function (map) {
         case MAJ:
             return '.' + brf[n];
         case NUM:
-            if (!first)
-                return brf[n];
+            if (number_start.first)
+                return ',' + brf[n]; // Add the dot 6 before the number
             else
-                return ',' + brf[n];
+                return brf[n];
         }
         return brf[n];
     }
@@ -141,10 +171,7 @@ var BrailleCell = (function (map) {
         }
     }
 
-    function isNumException(n) {
-        return (['x', '*', ':', '/'].indexOf(n) != -1);
-    }
-
+    // Check if a character is in a given column of the mapping table
     function inCol(char, col) {
         for (var i = 0; i < mapping.length; i++) {
             if (Array.isArray(mapping[i])) {
@@ -156,6 +183,7 @@ var BrailleCell = (function (map) {
         return false;
     }
 
+    // Search the index of a character in the mapping table
     function search(char) {
         if (rational_fr[char]) {
             char = rational_fr[char];
@@ -177,7 +205,31 @@ var BrailleCell = (function (map) {
         return undefined;
     }
 
+    function isNumException(n) {
+        return (['x', '*', ':', '/', '-', '÷', "'"].indexOf(n) != -1);
+    }
+
+    function isNum(c) {
+        if (inCol(c, 1))
+            return true;
+        return false;
+    }
+
+    // Function to detect if it is the start of a number and so we should add point 6
+    // Ex: 123 must be true for 1, 1'234 also.
+    function detect_number_start(dot) {
+        if( isNum(dot[0]) && !(isNum(number_start.last) || isNumException(number_start.last)))
+            number_start.first = true;
+        else
+            number_start.first = false;
+        number_start.last = dot[0];
+
+        return number_start.first;        
+    }  
+
+    // Set a dot with a value, or a string in the braille cell
     function set(dot, value) {
+        //console.log(dot);
         if (typeof dot === 'number') {
             cell[dot] = value;
         } else
@@ -190,27 +242,15 @@ var BrailleCell = (function (map) {
                 letter = dot[0].toLowerCase();
             } else {
                 // Detect number
-                var nan = false;
-                if (inCol(dot[0], 1)) {
-                    if (prefix === NUM) {
-                        first = false;
-                    } else {
-                        first = true;
-                        if (isNumException(dot[0])) {
-                            nan = true;
-                            first = false;
-                        }
-                    }
-                    if (nan) {
-                        prefix = NONE;
-                    } else {
-                        prefix = NUM;
-                    }
-                } else if (inCol(dot[0], 2)) {
+                if(detect_number_start(dot))
+                    prefix = NUM;
+                else if (inCol(dot[0], 2)) {
                     prefix = SIGN;
-                } else if (inCol(dot[0], 3)) {
+                }
+                else if (inCol(dot[0], 3)) {
                     prefix = CUR;
-                } else {
+                }
+                else {
                     prefix = NONE;
                 }
             }
@@ -227,15 +267,21 @@ var BrailleCell = (function (map) {
         return this;
     }
 
+    // Reset the braille cell to 0
     function reset() {
+        //console.log("-------------");
+        prefix = NONE;
+        number_start.reset();
         for (var i = 0; i < 6; i++) {
             cell[i] = 0;
         }
     }
 
+    // Expose the basic functions
     return {
         get: get,
         set: set,
         reset: reset,
     };
 });
+

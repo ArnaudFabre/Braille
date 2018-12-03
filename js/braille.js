@@ -4,6 +4,7 @@ var Braille = (function (map) {
 
     function get(str) {
         var br = "";
+        cell.reset();
         for(var i in str) {
             br += cell.set(str[i]).get("braille");
         }

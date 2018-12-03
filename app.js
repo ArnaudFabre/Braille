@@ -53,7 +53,8 @@ BrailleApp.controller('BrailleCtrl', function ($scope) {
 
         var last_space = -1; // Identify last space to cut lines
         var detect_line = false;
-
+        
+        cell.reset();
         for (var i in $scope.text_area_input) {
             // Parsing the input
             var letter = $scope.text_area_input[i];
@@ -66,6 +67,7 @@ BrailleApp.controller('BrailleCtrl', function ($scope) {
                 char = 0;
                 last_space = -1; // reset last_space
                 line++;
+                cell.reset();
                 continue;
             } else {
                 // Translate to brf

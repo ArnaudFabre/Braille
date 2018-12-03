@@ -1,6 +1,6 @@
 {
   "name": "braille",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Braille web application",
   "main": "index.html",
   "directories": {
@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/ArnaudFabre/Braille/issues"
   },
-  "homepage": "https://github.com/ArnaudFabre/Braille#readme"
+  "homepage": "https://github.com/ArnaudFabre/Braille#readme",
+  "dependencies": {
+    "bower": "^1.8.4"
+  }
 }
