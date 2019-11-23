@@ -7,7 +7,8 @@
     "example": "examples"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "node -e \"try { require('fs').symlinkSync(require('path').resolve('node_modules/@bower_components'), 'bower_components', 'junction') } catch (e) { }\""
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,10 @@
   },
   "homepage": "https://github.com/ArnaudFabre/Braille#readme",
   "dependencies": {
-    "bower": "^1.8.4"
+    "bower": "^1.8.4",
+    "@bower_components/angular": "angular/bower-angular#^1.5.8"
+  },
+  "engines": {
+    "yarn": ">= 1.0.0"
   }
 }
