@@ -31,7 +31,8 @@ var BrailleCell = (function (map) {
     var rational_fr = {
         '’': "'",
         '«': '"',
-        '»': '"'
+        '»': '"',
+        'ä': 'à'
     };
 
     // A french mapping of the letters corresponding to the braille number
@@ -201,8 +202,8 @@ var BrailleCell = (function (map) {
                 }
             }
         }
-
-        return undefined;
+        console.log("Error {" + char + "}" + mapping[0]);
+        return ' ';
     }
 
     function isNumException(n) {

@@ -5,9 +5,10 @@
     <meta charset='utf-8'>
     <title>BrailleApp</title>
     <link rel='stylesheet' href='assets/style.css'>
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
     <script src='bower_components/angular/angular.js'></script>
     <script src='js/BrailleCell.js'></script>
-    <script src='js/Braille.js'></script>
+    <script src='js/Speech.js'></script>
     <script src='app.js'></script>
 </head>
 
@@ -19,38 +20,40 @@
             <div class="item lighter" ng-click="view(3)">Embosser</div>
         </div>
         <div id="content">
-            <div class="view darker" ng-show="view_selected === 0">
-            </div>
+            <div class="view darker" ng-show="view_selected === 0"> </div>
             <div class="view dark" ng-show="view_selected === 1">
                 <div>
-                    <label for="black">Clavier : </label><input type="text" id="black" class="in" ng-model="input" ng-change="translate()">
-                </div>
+                    <label for="black">Clavier : </label>
+                    <input type="text" id="black" class="in" ng-model="input" ng-keypress="translate($event)"> </div>
                 <div>
-                    <label for="perckins">Perkins : </label><input type="text" id="perkins" class="in" ng-model="perkins" ng-keyup="fire($event)">
-                </div>
+                    <label for="perckins">Perkins : </label>
+                    <input type="text" id="perkins" class="in" ng-model="perkins" ng-keyup="fire($event)"> </div>
                 <div>
-                    <label for="braille">Braille : </label><div id="braille" class="braille" ng-keyup="fire($event)">{{braille}}
-                </div>
+                    <label for="braille">Braille : </label>
+                    <div>
+                        <div ng-bind-html="text | noir"> </div>
+                        <div>
+                            <div ng-bind-html="text | braille"> </div>
+                            <div id="braille" class="braille"> {{braille}} </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="view light" ng-show="view_selected === 2">
                 <h2>Questionnaire</h2>
                 <div>
                     <label>Nom :</label>
-                    <input type="text" id="name" value="Nathan">
-                </div>
-                <div>
-                    Exercice :
-                    <input type="file" id="fileUpload" />
-                </div>
+                    <input type="text" id="name" value="Nathan"> </div>
+                <div> Exercice :
+                    <input type="file" id="fileUpload" /> </div>
                 <button id="run_exo">C'est parti</button>
-                <div class="datagrid" id="exo">
-                </div>
+                <div class="datagrid" id="exo"> </div>
             </div>
             <div class="view lighter" ng-show="view_selected === 3">
                 <div>
                     <label for="max_lines">Lines : </label><input id="max_lines" type="number" ng-model="max_lines">
                     <label for="max_chars">Characters : </label><input id="max_chars" type="number" ng-model="max_chars">
+                    <label for="pages">Pages : </label><span id="pages">{{pages}}</span>
                 </div>
 
                 <textarea id="input" rows="{{max_lines}}" cols="{{max_chars}}" ng-model="text_area_input" ng-change="toBrf()"></textarea>
