@@ -141,9 +141,12 @@ BrailleApp.controller('BrailleCtrl', function ($scope) {
 
         if (brf == null) return;
 
-        filename = args.filename || 'export.brf';
+        // Precedence of name (args name > application defined name > default name)
+        filename = (args)?args.filename: $scope.filename || 'export.brf';
 
-        console.log(brf);
+        // Check the name ends by .brf
+        if(!filename.endsWith(".brf"))
+            filename += ".brf";
 
         var blob = new Blob([brf], {
             encoding: "ASCII",

@@ -58,7 +58,8 @@
 
                 <textarea id="input" rows="{{max_lines}}" cols="{{max_chars}}" ng-model="text_area_input" ng-change="toBrf()"></textarea>
                 <textarea id="output" readonly rows="28" cols="30" ng-model="text_area_output"></textarea>
-                <button ng-click='downloadBRF({ filename: "file.brf" });'>Download BRF</button>
+                Filename : <input type="text" ng-model="filename"></input>
+                <button ng-click='downloadBRF();'>Download BRF</button>
                 <div id="output2" rows="28" cols="31"></div>
             </div>
         </div>
