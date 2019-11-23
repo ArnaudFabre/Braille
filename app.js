@@ -30,7 +30,7 @@ BrailleApp.controller('BrailleCtrl', function ($scope) {
 
     var cell = new BrailleCell();
     var speech = new Speech();
-    
+
     $scope.translate = function ($event) {
         console.log($event);
         if($event.key === "Enter") {

@@ -8,6 +8,7 @@
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <script src='bower_components/angular/angular.js'></script>
     <script src='js/BrailleCell.js'></script>
+    <script src='js/BrailleTest.js'></script>
     <script src='js/Speech.js'></script>
     <script src='app.js'></script>
 </head>
@@ -58,9 +59,11 @@
 
                 <textarea id="input" rows="{{max_lines}}" cols="{{max_chars}}" ng-model="text_area_input" ng-change="toBrf()"></textarea>
                 <textarea id="output" readonly rows="28" cols="30" ng-model="text_area_output"></textarea>
-                Filename : <input type="text" ng-model="filename"></input>
-                <button ng-click='downloadBRF();'>Download BRF</button>
-                <div id="output2" rows="28" cols="31"></div>
+                <div>
+                    Filename : <input type="text" ng-model="filename"></input>
+                    <button ng-click='downloadBRF();'>Download BRF</button>
+                    <div id="output2" rows="28" cols="31"></div>
+                </div>
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-// A memory braille cell easy to use for
+// An accumulator braille cell easy to use for
 // - direct conversion between 
 //      + braille number (called braille),
 //      + readable braille sign (called dots), 
@@ -65,14 +65,19 @@ var BrailleCell = (function (map) {
     // The internal representation of a Braille Cell
     var cell = [0, 0, 0, 0, 0, 0];
 
-    // Initialize the mapping table
+    // The mapping table to convert from Braille dot to black and back
     var mapping;
-
-    if(map) {
-        mapping = map;
-    } else {
-        mapping = braille_fr;
+    
+    function getMapping() {
+        return mapping;
     }
+
+    function setMapping(map) {
+        mapping = map;
+    }
+
+    // Mapping init
+    setMapping(map || braille_fr); // By default the french braille
 
     // Compute the braille number representation : 2^0 + 2^1 + 2^2 + 2^3 + 2^4 + 2^5 (dot 1,2,3,4,5,6)
     function getBraille() {
@@ -268,7 +273,7 @@ var BrailleCell = (function (map) {
         return this;
     }
 
-    // Reset the braille cell to 0
+    // Reset the braille cell to 0 and return 0 as a string
     function reset() {
         //console.log("-------------");
         prefix = NONE;
@@ -276,6 +281,7 @@ var BrailleCell = (function (map) {
         for (var i = 0; i < 6; i++) {
             cell[i] = 0;
         }
+        return "0";
     }
 
     // Expose the basic functions
@@ -283,6 +289,8 @@ var BrailleCell = (function (map) {
         get: get,
         set: set,
         reset: reset,
+        setMapping: setMapping,
+        getMapping: getMapping
     };
 });
 
