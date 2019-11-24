@@ -18,7 +18,7 @@ function replaceChar(s, index, char) {
    return s.substr(0, index) + char + s.substr(index+1);
 }
 
-BrailleApp.controller('BrailleCtrl', function ($scope) {
+BrailleApp.controller('BrailleCtrl', function ($scope, $http) {
     $scope.view_selected = 0;
     $scope.view = function (v) {
         $scope.view_selected = v;
@@ -30,6 +30,31 @@ BrailleApp.controller('BrailleCtrl', function ($scope) {
 
     var cell = new BrailleCell();
     var speech = new Speech();
+
+    $scope.mapping = {
+        current: "french",
+        conf: {
+            "french": {
+                data: "./assets/braille_fr.json",
+                maj: true
+            },
+            "music": {
+                data: "./assets/braille_music.ctb",
+                maj: false
+            }
+        },
+        change: function() {
+            var cur = this.conf[this.current];
+            if(cur.data.endsWith(".json") || cur.data.endsWith(".ctb")) {
+                $http.get(cur.data).then( function(body) {
+                    cell.conf(body.data, cur.maj);
+                });
+                
+            } else {
+                var m = cell.conf(cur.data, cur.maj);
+            }
+        }
+    };
 
     $scope.translate = function ($event) {
         console.log($event);

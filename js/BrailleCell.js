@@ -20,6 +20,8 @@ var BrailleCell = (function (map) {
     var LET = -7; // letter prefix
     var IT = -8; // Italique
 
+    var useMAJ = true;
+
     var prefix = NONE;
     var number_start = {
         first: false,
@@ -77,6 +79,13 @@ var BrailleCell = (function (map) {
 
     // Mapping init
     mapping = map || braille_fr; // By default, if none is given, use the french braille
+
+    function configure(map, maj) {
+        var m = new Mapping(map);
+        mapping = m.get();
+        useMAJ = maj?maj:false;
+        return mapping;
+    }
 
     // Compute the braille number representation : 2^0 + 2^1 + 2^2 + 2^3 + 2^4 + 2^5 (dot 1,2,3,4,5,6)
     function getBraille() {
@@ -206,7 +215,7 @@ var BrailleCell = (function (map) {
                 }
             }
         }
-        console.log("Error {" + char + "}" + mapping[0]);
+        console.log("Error {" + char + "} " + mapping[0]);
         return ' ';
     }
 
@@ -263,7 +272,7 @@ var BrailleCell = (function (map) {
             } else {
                 var rest, letter = dot[0];
                 first = false;
-                if (dot[0].toUpperCase() === dot[0] && dot[0] !== dot[0].toLowerCase()) {
+                if (useMAJ && dot[0].toUpperCase() === dot[0] && dot[0] !== dot[0].toLowerCase()) {
                     // Detect Upper Case
                     prefix = MAJ;
                     letter = dot[0].toLowerCase();
@@ -309,6 +318,7 @@ var BrailleCell = (function (map) {
     return {
         get: get,
         set: set,
-        reset: reset
+        reset: reset,
+        conf: configure
     };
 });

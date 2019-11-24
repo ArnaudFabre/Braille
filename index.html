@@ -53,6 +53,11 @@
             </div>
             <div class="view lighter" ng-show="view_selected === 3">
                 <div>
+                    <select ng-model="mapping.current" ng-change="mapping.change()">
+                        <option ng-repeat="(key,value) in mapping.conf">{{key}}</option>
+                    </select>
+                </div>
+                <div>
                     <label for="max_lines">Lines : </label><input id="max_lines" type="number" ng-model="max_lines">
                     <label for="max_chars">Characters : </label><input id="max_chars" type="number" ng-model="max_chars">
                     <label for="pages">Pages : </label><span id="pages">{{pages}}</span>
