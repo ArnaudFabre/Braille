@@ -1,0 +1,11 @@
+# First attempt to a musical translation table
+
+always C 13456 Do
+always D 1356 Ré
+always E 12346 Mi
+always F 123456 Fa
+always G 12356 Sol
+always A 2346 La
+always B 23456 Si
+always X 134 Rest
+
