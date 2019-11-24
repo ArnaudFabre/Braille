@@ -25,13 +25,23 @@ var BrailleTest = (function (map, verbosity) {
         }
     }
 
-    function run() {
+    function basic() {
         assert("set", cell.set("a"), cell);
         assert("get", cell.get(), "1");
         assert("get black", cell.get("black"), "a");
         assert("get dots", cell.get("dots"), "1");
         assert("get brf", cell.get("brf"), "A"); 
         assert("reset", cell.reset(), "0");
+    }
+
+    function dots() {
+        assert("set dots", cell.set("123", "dots"), cell);
+        assert("get dots", cell.get("black"), "l");
+    }
+
+    function run() {
+        basic();
+        dots();
 
         var passed = 100*n_success/(n_failed+n_success);
         if(verbose)
