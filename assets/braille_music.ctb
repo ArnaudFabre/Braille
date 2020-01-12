@@ -1,5 +1,8 @@
 # First attempt to a musical translation table
 
+always . 3 dot
+
+# wholes
 always C 13456 Do
 always D 1356 Ré
 always E 12346 Mi
@@ -9,3 +12,12 @@ always A 2346 La
 always B 23456 Si
 always X 134 Rest
 
+# halves
+always c 1345 Do
+always d 135 Ré
+always e 1234 Mi
+always f 12345 Fa
+always g 1235 Sol
+always a 234 La
+always b 2345 Si
+always x 146 Rest
