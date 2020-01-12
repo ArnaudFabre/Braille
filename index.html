@@ -64,7 +64,7 @@
                 </div>
 
                 <textarea id="input" rows="{{max_lines}}" cols="{{max_chars}}" ng-model="text_area_input" ng-change="toBrf()"></textarea>
-                <textarea id="output" readonly rows="28" cols="30" ng-model="text_area_output"></textarea>
+                <textarea id="output" rows="28" cols="30" ng-model="text_area_output" ng-change="toBlack()"></textarea>
                 <div>
                     Filename : <input type="text" ng-model="filename"></input>
                     <button ng-click='downloadBRF();'>Download BRF</button>

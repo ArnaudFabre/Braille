@@ -97,6 +97,34 @@ BrailleApp.controller('BrailleCtrl', function ($scope, $http) {
     $scope.max_lines = 28;
     $scope.max_chars = 30;
     $scope.pages = 0;
+
+    // Brf to black
+    $scope.toBlack = function () {
+        $scope.text_area_input = '';
+        cell.reset();
+        for (var i in $scope.text_area_output) {
+            var letter = $scope.text_area_output[i];
+
+            if (letter === '\n') {
+                // Force break line
+                $scope.text_area_input += '\n';
+                cell.reset();
+                continue;
+            }
+
+            if(letter === ' ') {
+                $scope.text_area_input += ' ';
+            } else {
+                var black = cell.set(letter, "brf").get('black');
+                $scope.text_area_input += black;
+            }
+
+            if(letter == ' ' || (cell.get("prefix") == "upper" && letter != "."))
+                cell.reset();
+            else
+                cell.soft_reset();
+        }
+    };
     // Brf converter
     $scope.toBrf = function () {
         //console.log($scope.text_area_input);
