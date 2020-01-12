@@ -23,6 +23,21 @@ var BrailleCell = (function (map) {
     var useMAJ = true;
 
     var prefix = NONE;
+    function getPrefix() {
+        switch(prefix) {
+            case NONE: return "none";
+            case EXP: return "exp";
+            case SIGN: return "sign";
+            case MAJ: return "upper";
+            case CUR: return "currency";
+            case NUM: return "number";
+            case ING: return "ing";
+            case LET: return "letter";
+            case IT: return "italic";
+        }
+        return prefix;
+    }
+
     var number_start = {
         first: false,
         last: "",
@@ -46,17 +61,17 @@ var BrailleCell = (function (map) {
     // If an array is stored, it contains the sign corresponding to the given prefix 
     // "NO PREFIX, NUMBER, SIGN, CURRENCY"
     var braille_fr = [
-        ' ', 'a', ',', 'b', "'", 'k', ';', ['l', NONE, NONE, '£'], EXP, 'c',
-        'i', 'f', ['/', '/'], 'm', ['s', NONE, NONE, '$'], 'p', SIGN, ['e', NONE, NONE, '€'],
-        [':', ':'], 'h',
-        ['*', '*'], 'o', ['!', '+'], 'r', CUR, 'd', 'j', 'g', '@', 'n',
-        't', 'q', NUM, ['â', '1'], '?', ['ê', '2'], '-', 'u', '(', 'v',
+        ' ', 'a', ',', 'b', "'", 'k', ';', ['l', NONE, NONE, '£'], EXP, 'c', // 10
+        'i', 'f', ['/', '/'], 'm', ['s', NONE, NONE, '$'], 'p', SIGN, ['e', NONE, NONE, '€'], 
+        [':', ':'], 'h', // 20
+        ['*', '*'], 'o', ['!', '+'], 'r', CUR, 'd', 'j', 'g', '@', 'n', // 30
+        't', 'q', NUM, ['â', '1'], '?', ['ê', '2'], '-', 'u', '(', 'v', // 40
         MAJ, ['î', '3'],
         ['œ', '9'],
         ['ë', '6'],
         [ING, NONE, '%'],
-        ['x', 'x'], 'è', 'ç', LET, ['û', '5'],
-        '.', ['ü', '8'], ')', 'z', ['"', '='], 'à', IT, ['ô', '4'], 'w', ['ï', '7'],
+        ['x', 'x'], 'è', 'ç', LET, ['û', '5'], // 50
+        '.', ['ü', '8'], ')', 'z', ['"', '='], 'à', IT, ['ô', '4'], 'w', ['ï', '7'], // 60
         '0', 'y', 'ù', ['é', NONE, '&']
     ];
 
@@ -122,8 +137,14 @@ var BrailleCell = (function (map) {
                 d += (i + 1);
             }
         }
-        if (prefix)
-            d = p + ' ' + d;
+    
+        if (prefix) {
+            if(d != '')
+                d = p + ' ' + d;
+            else
+                d = p;
+        }
+            
 
         return d;
     }
@@ -132,6 +153,7 @@ var BrailleCell = (function (map) {
     function getBlack() {
         var n = getBraille();
         var l = mapping[n];
+        
         if (Array.isArray(l)) {
             switch (prefix) {
                 case CUR:
@@ -141,12 +163,19 @@ var BrailleCell = (function (map) {
                 case NUM:
                     return l[1];
                 default:
-                    return l[0];
+                    l=l[0];
             }
         }
 
         switch (prefix) {
+            case NUM:
+                if(l == ' ')
+                    return '';
+                return l;
             case MAJ:
+            if(l == ' ')
+                return '';
+            else
                 return l.toUpperCase();
         }
         return l;
@@ -182,6 +211,8 @@ var BrailleCell = (function (map) {
                 return getBraille();
             case 'dots':
                 return getDots();
+            case 'prefix':
+                return getPrefix();
         }
     }
 
@@ -197,25 +228,27 @@ var BrailleCell = (function (map) {
         return false;
     }
 
-    // Search the index of a character in the mapping table
-    function search(char) {
+    // Search the index of a character in the given mapping table
+    function search(char, map) {  
+        map = map || mapping;
+        //console.log(char, map);
         if (rational_fr[char]) {
             char = rational_fr[char];
         }
-        for (var i = 0; i < mapping.length; i++) {
-            if (Array.isArray(mapping[i])) {
-                for (var j = 0; j < mapping[i].length; j++) {
-                    if (mapping[i][j] === char) {
+        for (var i = 0; i < map.length; i++) {
+            if (Array.isArray(map[i])) {
+                for (var j = 0; j < map[i].length; j++) {
+                    if (map[i][j] === char) {
                         return i;
                     }
                 }
             } else {
-                if (mapping[i] === char) {
+                if (map[i] === char) {
                     return i;
                 }
             }
         }
-        console.log("Error {" + char + "} " + mapping[0]);
+        console.log("Error {" + char + "} " + map[0]);
         return ' ';
     }
 
@@ -254,7 +287,7 @@ var BrailleCell = (function (map) {
             } else { // Enter the value of the cell
             }
         } else
-        if (typeof dot === 'string') {
+        if(typeof dot === 'string') {
             if (value == "dots") {
                 reset();
                 if (dot.includes("1"))
@@ -269,6 +302,22 @@ var BrailleCell = (function (map) {
                     cell[4] = 1;
                 if (dot.includes("6"))
                     cell[5] = 1;
+            } else
+            if (value == "brf") {                
+                // Detect Upper Case
+                if(dot == ".") {
+                    prefix = MAJ;
+                } else 
+                if(dot == ",") {
+                    prefix = NUM;
+                } else {
+                    rest = search(dot, brf);
+                    
+                    for (var i = 5; i >= 0; i--) {
+                        cell[i] = Math.floor(rest / Math.pow(2, i));
+                        rest = rest - cell[i] * Math.pow(2, i);
+                    }
+                }
             } else {
                 var rest, letter = dot[0];
                 first = false;
@@ -313,12 +362,20 @@ var BrailleCell = (function (map) {
         }
         return "0";
     }
+    function soft_reset() {
+        number_start.reset();
+        for (var i = 0; i < 6; i++) {
+            cell[i] = 0;
+        }
+        return "0";
+    }
 
     // Expose the basic functions
     return {
         get: get,
         set: set,
         reset: reset,
+        soft_reset:soft_reset,
         conf: configure
     };
 });
